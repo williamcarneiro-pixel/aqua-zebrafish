@@ -119,6 +119,27 @@
     }
     .step .k{font-size:12px;color:var(--muted);margin-bottom:4px}
     .step .v{font-weight:650}
+    .step.current{
+      border-color: var(--brand-2);
+      background: #eef9fb;
+    }
+    .step.current .v{
+      font-size:17px;
+      color: var(--brand);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid var(--brand-2);
+      color: var(--brand);
+      background:#fff;
+      font-size:11px;
+      font-weight:750;
+      margin-left:8px;
+      vertical-align:middle;
+    }
     .footer{
       margin-top:14px;
       border:1px solid var(--border);
@@ -132,24 +153,9 @@
       gap:10px 14px;
       justify-content:space-between;
     }
-    .actions{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-      margin-top:14px;
-    }
-    button{
-      border:1px solid var(--border);
-      background:#fff;
-      border-radius:10px;
-      padding:10px 12px;
-      cursor:pointer;
-      font-weight:650;
-    }
-    button:hover{border-color:#cbd5e1}
-    .hint{font-size:12px;color:var(--muted);margin-top:6px}
     /* Para impressão (opcional) */
     @media print{
       body{background:#fff}
-      .actions,.hint{display:none}
       a{color:#111827;text-decoration:none}
     }
   </style>
@@ -162,6 +168,9 @@
         <div class="emoji" aria-hidden="true">🐟</div>
         <div>
           <h1 id="hTitle">Avaliação do desenvolvimento — Zebrafish</h1>
+          <div class="sub muted">
+            Código: <strong id="tankCode">ZF-RC-01</strong> — <span class="muted">ZF = zebrafish; RC = Royal Caviar; 01 = nº do aquário</span>
+          </div>
         </div>
       </div>
 
@@ -172,6 +181,12 @@
         </div>
         <div class="pill" title="Data de nascimento (dd/mm/aaaa)">
           Nascimento: <strong id="birth">17/09/2025</strong>
+        </div>
+        <div class="pill" title="Origem dos animais">
+          Origem: <strong id="origin">F2 Muriaé</strong>
+        </div>
+        <div class="pill" title="Data de transferência para o rack">
+          Transf. rack: <strong id="transfer">03/12/2025</strong>
         </div>
         <div class="pill" title="Ambiente">
           Rack recirculação
@@ -184,20 +199,20 @@
       <article class="card">
         <h2>Objetivo</h2>
         <p>
-          Acompanhar <strong>desenvolvimento e desempenho</strong> de <em>Danio rerio</em> submetidos a protocolo nutricional sequencial nas fases larval e juvenil.
+          Acompanhar desenvolvimento do zebrafish (<em>Danio rerio</em>) submetidos a protocolo nutricional experimental nas fases larval e juvenil.
         </p>
         <p class="muted">
-          Observação contínua no rack: crescimento, comportamento e parâmetros morfométricos.
+          Observação contínua no rack: crescimento, comportamento e morfologia.
         </p>
       </article>
 
       <article class="card">
         <h2>Parâmetros monitorados</h2>
         <ul class="list">
-          <li><strong>Sobrevivência</strong></li>
-          <li><strong>Desenvolvimento morfológico</strong></li>
-          <li><strong>Uniformidade do lote</strong></li>
-          <li><strong>Comportamento alimentar</strong></li>
+          <li>Sobrevivência</li>
+          <li>Desenvolvimento morfológico</li>
+          <li>Uniformidade do lote</li>
+          <li>Comportamento alimentar</li>
         </ul>
         <p class="muted" style="margin-top:10px">
           Periodicidade e planilhas/registro: conforme rotina do laboratório.
@@ -220,8 +235,8 @@
               <div class="v">Sparos (100 µm) + Artêmia</div>
               <div class="k">Fornecedor: Sparos • Vivo suplementar</div>
             </div>
-            <div class="step" role="listitem">
-              <div class="k">Fase 3 • &gt;40 dpf (atual)</div>
+            <div class="step current" role="listitem">
+              <div class="k">Fase 3 • &gt;40 dpf <span class="badge">ATUAL</span></div>
               <div class="v">Ração floculada</div>
               <div class="k">Manutenção em rack para acompanhamento</div>
             </div>
@@ -243,16 +258,10 @@
     </section>
 
     <section class="footer" aria-label="Condições do sistema">
-      <div>Temperatura: <strong>26–28&nbsp;°C</strong></div>
+      <div>Temperatura: <strong>27–28&nbsp;°C</strong></div>
       <div>Fotoperíodo: <strong>14:10 (L:E)</strong></div>
       <div class="muted">Acompanhamento em condições controladas</div>
     </section>
-
-    <div class="actions" aria-label="Ações">
-      <button type="button" id="btnCopy">Copiar link desta ficha</button>
-      <button type="button" id="btnPrint">Imprimir (opcional)</button>
-    </div>
-    <div class="hint" id="linkHint"></div>
 
   </main>
 
@@ -266,12 +275,22 @@
     // Campos básicos
     const nasc = p.get("nasc"); // pode ser yyyy-mm-dd ou texto livre
     const titulo = p.get("titulo");
+    const idAquario = p.get("id");
+    const origem = p.get("origem");
+    const transf = p.get("transf");
     if (titulo)   setText("hTitle", titulo);
+    if (origem)  setText("origin", origem);
+    if (idAquario) setText("tankCode", idAquario);
     if (nasc) {
       // Se vier no padrão yyyy-mm-dd, converte para dd/mm/aaaa (sem depender de locale)
       const m = nasc.match(/^(\d{4})-(\d{2})-(\d{2})$/);
       setText("birth", m ? `${m[3]}/${m[2]}/${m[1]}` : nasc);
     }
+    if (transf) {
+      const m2 = transf.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      setText("transfer", m2 ? `${m2[3]}/${m2[2]}/${m2[1]}` : transf);
+    }
+
 
     // Status simples
     const status = (p.get("status") || "").toLowerCase();
@@ -289,17 +308,6 @@
       statusDot.className = "dot " + (status === "alerta" ? "warn" : "ok");
     }
 
-    // Ações
-    const hint = document.getElementById("linkHint");
-    document.getElementById("btnCopy").addEventListener("click", async () => {
-      try{
-        await navigator.clipboard.writeText(location.href);
-        hint.textContent = "Link copiado para a área de transferência.";
-      }catch(e){
-        hint.textContent = "Não consegui copiar automaticamente. Selecione e copie a URL do navegador.";
-      }
-    });
-    document.getElementById("btnPrint").addEventListener("click", () => window.print());
   </script>
 </body>
 </html>
