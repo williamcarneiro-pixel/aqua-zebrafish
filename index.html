@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aquário • Zebrafish — Ficha do Protocolo</title>
+  <meta name="description" content="Ficha rápida do aquário (zebrafish): objetivo, protocolo nutricional, parâmetros e contatos." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --surface:#f7f7f8;
+      --border:#e5e7eb;
+      --text:#111827;
+      --muted:#6b7280;
+      --brand:#0a4d68;
+      --brand-2:#088395;
+      --ok:#16a34a;
+      --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:var(--bg);
+    }
+    a{color:var(--brand-2);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:920px;margin:0 auto;padding:24px}
+    header{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      justify-content:space-between;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:18px 18px;
+      background:var(--surface);
+    }
+    .title{
+      display:flex; gap:12px; align-items:center;
+      min-width:0;
+    }
+    .emoji{font-size:28px; line-height:1}
+    h1{
+      font-size:20px;
+      margin:0;
+      line-height:1.2;
+      font-weight:750;
+      color:var(--brand);
+    }
+    .sub{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .meta{
+      display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;
+      max-width:360px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#fff;
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .dot{width:8px;height:8px;border-radius:50%}
+    .dot.ok{background:var(--ok)}
+    .dot.warn{background:var(--warn)}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (min-width: 900px){
+      .grid{grid-template-columns:1fr 1fr}
+      .span2{grid-column:1 / -1}
+    }
+    .card{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:#fff;
+      padding:16px;
+    }
+    .card h2{
+      margin:0 0 8px 0;
+      font-size:15px;
+      font-weight:700;
+      color:var(--text);
+    }
+    .card p{margin:0 0 10px 0;color:var(--text)}
+    .muted{color:var(--muted)}
+    .list{margin:0;padding-left:18px;color:var(--text)}
+    .list li{margin:6px 0}
+    details{
+      border:1px dashed var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      background:var(--surface);
+    }
+    summary{
+      cursor:pointer;
+      font-weight:650;
+      color:var(--brand);
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    .timeline{margin-top:10px;display:grid;gap:10px}
+    .step{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px;
+      background:#fff;
+    }
+    .step .k{font-size:12px;color:var(--muted);margin-bottom:4px}
+    .step .v{font-weight:650}
+    .footer{
+      margin-top:14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px 16px;
+      background:var(--surface);
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 14px;
+      justify-content:space-between;
+    }
+    .actions{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+      margin-top:14px;
+    }
+    button{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:10px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:650;
+    }
+    button:hover{border-color:#cbd5e1}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    /* Para impressão (opcional) */
+    @media print{
+      body{background:#fff}
+      .actions,.hint{display:none}
+      a{color:#111827;text-decoration:none}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+
+    <header>
+      <div class="title">
+        <div class="emoji" aria-hidden="true">🐟</div>
+        <div>
+          <h1 id="hTitle">Avaliação do desenvolvimento — Zebrafish</h1>
+        </div>
+      </div>
+
+      <div class="meta" aria-label="Metadados">
+        <div class="pill" title="Status do acompanhamento">
+          <span class="dot ok" id="statusDot"></span>
+          <span id="statusText">Em observação</span>
+        </div>
+        <div class="pill" title="Data de nascimento (dd/mm/aaaa)">
+          Nascimento: <strong id="birth">17/09/2025</strong>
+        </div>
+        <div class="pill" title="Ambiente">
+          Rack recirculação
+        </div>
+      </div>
+    </header>
+
+    <section class="grid" aria-label="Conteúdo">
+
+      <article class="card">
+        <h2>Objetivo</h2>
+        <p>
+          Acompanhar <strong>desenvolvimento e desempenho</strong> de <em>Danio rerio</em> submetidos a protocolo nutricional sequencial nas fases larval e juvenil.
+        </p>
+        <p class="muted">
+          Observação contínua no rack: crescimento, comportamento e parâmetros morfométricos.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Parâmetros monitorados</h2>
+        <ul class="list">
+          <li><strong>Sobrevivência</strong></li>
+          <li><strong>Desenvolvimento morfológico</strong></li>
+          <li><strong>Uniformidade do lote</strong></li>
+          <li><strong>Comportamento alimentar</strong></li>
+        </ul>
+        <p class="muted" style="margin-top:10px">
+          Periodicidade e planilhas/registro: conforme rotina do laboratório.
+        </p>
+      </article>
+
+      <article class="card span2">
+        <h2>Protocolo nutricional</h2>
+
+        <details open>
+          <summary>Ver cronologia (dpf)</summary>
+          <div class="timeline" role="list">
+            <div class="step" role="listitem">
+              <div class="k">Fase 1 • 6–20 dpf</div>
+              <div class="v">Royal Caviar (50 µm)</div>
+              <div class="k">Fornecedor: Bernaqua</div>
+            </div>
+            <div class="step" role="listitem">
+              <div class="k">Fase 2 • 20–40 dpf</div>
+              <div class="v">Sparos (100 µm) + Artêmia</div>
+              <div class="k">Fornecedor: Sparos • Vivo suplementar</div>
+            </div>
+            <div class="step" role="listitem">
+              <div class="k">Fase 3 • &gt;40 dpf (atual)</div>
+              <div class="v">Ração floculada</div>
+              <div class="k">Manutenção em rack para acompanhamento</div>
+            </div>
+          </div>
+        </details>
+
+              </article>
+
+      <article class="card span2">
+        <h2>Responsáveis</h2>
+        <p class="muted">Contato para dúvidas sobre animais, protocolo e acesso aos dados.</p>
+        <ul class="list">
+          <li><strong>William</strong></li>
+          <li><strong>Bernardo</strong></li>
+        </ul>
+        <p class="muted" style="margin-top:10px">Telefones: no grupo do WhatsApp.</p>
+      </article>
+
+    </section>
+
+    <section class="footer" aria-label="Condições do sistema">
+      <div>Temperatura: <strong>26–28&nbsp;°C</strong></div>
+      <div>Fotoperíodo: <strong>14:10 (L:E)</strong></div>
+      <div class="muted">Acompanhamento em condições controladas</div>
+    </section>
+
+    <div class="actions" aria-label="Ações">
+      <button type="button" id="btnCopy">Copiar link desta ficha</button>
+      <button type="button" id="btnPrint">Imprimir (opcional)</button>
+    </div>
+    <div class="hint" id="linkHint"></div>
+
+  </main>
+
+  <script>
+    // === Personalização por URL (ideal para QR) ===
+    // Exemplo: ?aq=A12&lote=ZB-2025-09&nasc=2025-09-17&status=observacao&titulo=Zebrafish%20-%20A12
+    const p = new URLSearchParams(location.search);
+
+    const setText = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+
+    // Campos básicos
+    const nasc = p.get("nasc"); // pode ser yyyy-mm-dd ou texto livre
+    const titulo = p.get("titulo");
+    if (titulo)   setText("hTitle", titulo);
+    if (nasc) {
+      // Se vier no padrão yyyy-mm-dd, converte para dd/mm/aaaa (sem depender de locale)
+      const m = nasc.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      setText("birth", m ? `${m[3]}/${m[2]}/${m[1]}` : nasc);
+    }
+
+    // Status simples
+    const status = (p.get("status") || "").toLowerCase();
+    const statusText = document.getElementById("statusText");
+    const statusDot = document.getElementById("statusDot");
+    if (status) {
+      const map = {
+        "observacao":"Em observação",
+        "em_observacao":"Em observação",
+        "finalizado":"Finalizado",
+        "quarentena":"Quarentena",
+        "alerta":"Atenção"
+      };
+      statusText.textContent = map[status] || status;
+      statusDot.className = "dot " + (status === "alerta" ? "warn" : "ok");
+    }
+
+    // Ações
+    const hint = document.getElementById("linkHint");
+    document.getElementById("btnCopy").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(location.href);
+        hint.textContent = "Link copiado para a área de transferência.";
+      }catch(e){
+        hint.textContent = "Não consegui copiar automaticamente. Selecione e copie a URL do navegador.";
+      }
+    });
+    document.getElementById("btnPrint").addEventListener("click", () => window.print());
+  </script>
+</body>
+</html>
